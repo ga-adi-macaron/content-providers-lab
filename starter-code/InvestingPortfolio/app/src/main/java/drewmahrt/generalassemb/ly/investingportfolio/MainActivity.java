@@ -10,6 +10,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,6 +30,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     private static final String TAG = "MainActivity";
     public static final int LOADER_STOCK = 0;
@@ -43,7 +47,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //TODO: Initialize StockRecyclerViewAdapter
+
+        mPortfolioRecyclerView = (RecyclerView)findViewById(R.id.portfolio_list);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+
+        List<Stock> stocks = new ArrayList<>();
+        //ToDo: Add method to StockContentProvider that returns full stocks list.
+
+        mAdapter = new StockRecyclerViewAdapter(stocks);
+
+        mPortfolioRecyclerView.setLayoutManager(gridLayoutManager);
+        mPortfolioRecyclerView.setAdapter(mAdapter);
 
         getSupportLoaderManager().initLoader(LOADER_STOCK,null,this);
 

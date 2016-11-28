@@ -21,6 +21,8 @@ public class StockPortfolioContract {
 
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, TABLE_STOCKS);
 
+
+
         //TODO: Add Types
     }
 }
