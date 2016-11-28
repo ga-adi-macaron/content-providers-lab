@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 public class MyDBHandler extends SQLiteOpenHelper {
   private static final Object mLock = new Object();
@@ -74,6 +75,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     SQLiteDatabase db = getReadableDatabase();
     Cursor cursor = db.query(TABLE_STOCKS,projection,selection,null,null,null,null);
+    Log.d("Database", "getStocks: "+cursor.getCount());
 
     return cursor;
   }

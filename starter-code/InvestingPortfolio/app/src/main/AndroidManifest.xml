@@ -22,7 +22,9 @@
         </activity>
 
         <!-- TODO: Add Provider tag -->
-
+        <provider
+            android:authorities="drewmahrt.generalassemb.ly.investingportfolio.StockContentProvider"
+            android:name=".StockContentProvider"/>
     </application>
 
 
