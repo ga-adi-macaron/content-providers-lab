@@ -7,6 +7,9 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Scott Lindley on 11/28/2016.
@@ -51,7 +54,7 @@ public class StockContentProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown Uri "+uri);
         }
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
-        return null;
+        return cursor;
     }
 
     @Nullable
@@ -71,12 +74,15 @@ public class StockContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
+        Log.d(TAG, "insert: "+uri.toString());
+
         int uriType = sURIMatcher.match(uri);
 
         long id;
         switch (uriType){
-            case STOCKS:
+            case STOCKS:case STOCKS_ID:
                 id = mDBHandler.addStock(contentValues);
+                Log.d(TAG, "insert: "+id);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown Uri: "+uri);
