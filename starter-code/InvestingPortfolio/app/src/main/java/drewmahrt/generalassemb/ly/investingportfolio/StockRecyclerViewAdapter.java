@@ -3,6 +3,9 @@ package drewmahrt.generalassemb.ly.investingportfolio;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -10,9 +13,9 @@ import java.util.List;
  * Created by drewmahrt on 11/22/16.
  */
 
-public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockRecyclerViewAdapter.StockViewHolder>{
+public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockViewHolder>{
 
-    List<Stock> mStockList;
+    private List<Stock> mStockList;
 
     public StockRecyclerViewAdapter(List<Stock> stockList) {
         mStockList = stockList;
@@ -35,4 +38,27 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockRecycler
         notifyDataSetChanged();
     }
 
+    @Override
+    public StockViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_form_stock,null);
+        return new StockViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(StockViewHolder holder, int position) {
+        //ToDo: Bind data to holders
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mStockList.size();
+    }
+}
+class StockViewHolder extends RecyclerView.ViewHolder{
+    //ToDo: Initialize and Add references to views
+
+    public StockViewHolder(View itemView) {
+        super(itemView);
+    }
 }

@@ -22,7 +22,7 @@ public class StockPortfolioContract {
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, TABLE_STOCKS);
 
 
-
-        //TODO: Add Types
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE.concat("/vnd.drewmahrt.generalassemb.ly.investingportfolio.stocks");
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE.concat("/vnd.drewmahrt.generalassemb.ly.investingportfolio.stocks");
     }
 }
