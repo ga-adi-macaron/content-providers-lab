@@ -11,6 +11,8 @@ creator:
 
 # ![](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png) Content Providers
 
+**This lab can be done in pairs.**
+
 In this lab, you will be creating an app that will use the [MarkIt On Demand API](http://dev.markitondemand.com/MODApis/) to create a Stock portfolio. All data must be stored in a local database through a Content Provider. The user must be able to add a stock as well as the quantity they bought to the database in a dialog window (see screenshots below). On the screen, you must show the company name and quantity of stock purchased in a RecyclerView.
 
 The MarkIt API will be used to retrieve the company name and quantity of stock for each company.
