@@ -62,15 +62,21 @@ public class MyAPIHandler {
                         case DETAIL_QUOTE:
                             StockGSONResult gsonResult = gson.fromJson(response,StockGSONResult.class);
 
-                            ContentValues contentValues = new ContentValues();
-                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_QUANTITY, count);
-                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_STOCKNAME, gsonResult.getName());
-                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_STOCK_SYMBOL,gsonResult.getSymbol());
-                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_PRICE, gsonResult.getLastPrice());
-                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_EXCHANGE, gsonResult.getExchange());
+                            if (gsonResult.getName()!=null) {//If no name, that means search didn't have a result.
 
-                            context.getContentResolver().insert(StockPortfolioContract.Stocks.CONTENT_URI,contentValues);
+                                ContentValues contentValues = new ContentValues();
+                                contentValues.put(StockPortfolioContract.Stocks.COLUMN_QUANTITY, count);
+                                contentValues.put(StockPortfolioContract.Stocks.COLUMN_STOCKNAME, gsonResult.getName());
+                                contentValues.put(StockPortfolioContract.Stocks.COLUMN_STOCK_SYMBOL, gsonResult.getSymbol());
+                                contentValues.put(StockPortfolioContract.Stocks.COLUMN_PRICE, gsonResult.getLastPrice());
+                                contentValues.put(StockPortfolioContract.Stocks.COLUMN_EXCHANGE, gsonResult.getExchange());
+
+                                context.getContentResolver().insert(StockPortfolioContract.Stocks.CONTENT_URI, contentValues);
+                            }else{
+                                Toast.makeText(context, "No Stocks by that Symbol found", Toast.LENGTH_LONG).show();
+                            }
                             break;
+
 
                         case DETAIL_LOOKUP://Unimplemented
                             StockGSONResult[] stockSearchresults = gson.fromJson(response, StockGSONResult[].class);
