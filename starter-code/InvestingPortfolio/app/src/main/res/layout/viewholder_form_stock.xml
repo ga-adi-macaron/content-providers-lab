@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+    android:id="@+id/holder_container">
 
-    <!--ToDo: Add views-->
+    <TextView
+        android:id="@+id/stock_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="blah blah"
+        android:textSize="14sp"
+        android:textColor="#333"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stock_name"
+        android:layout_centerHorizontal="true"
+        android:textSize="12sp"
+        android:textColor="#555"/>
 
 </RelativeLayout>

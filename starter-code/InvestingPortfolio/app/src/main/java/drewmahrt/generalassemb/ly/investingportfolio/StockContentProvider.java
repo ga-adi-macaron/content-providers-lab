@@ -94,7 +94,6 @@ public class StockContentProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
-//        int uriType = sUriMatcher.match(uri);
         int updatedRows = 0;
         updatedRows = mDBHandler.updateStock(contentValues,selection,selectionArgs);
         getContext().getContentResolver().notifyChange(uri, null);

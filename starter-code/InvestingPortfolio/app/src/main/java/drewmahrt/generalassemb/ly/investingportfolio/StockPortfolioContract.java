@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
  * Created by drewmahrt on 8/9/16.
  */
 public class StockPortfolioContract {
-    public static final String AUTHORITY = "drewmahrt.generalassemb.ly.investingportfolio.MyContentProvider";
+    public static final String AUTHORITY = "drewmahrt.generalassemb.ly.investingportfolio.StockContentProvider";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
     public static final class Stocks implements BaseColumns {
