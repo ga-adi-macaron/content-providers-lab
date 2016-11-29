@@ -3,6 +3,10 @@ package drewmahrt.generalassemb.ly.investingportfolio;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -19,6 +23,23 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockRecycler
     }
 
 
+    @Override
+    public StockViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new StockViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.stock_item, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(StockViewHolder holder, int position) {
+        holder.mCompanyName.setText(mStockList.get(position).getStockName());
+        holder.mQuantityOfStock.setText(mStockList.get(position).getStockCount());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mStockList.size();
+    }
+
     public void swapData(Cursor cursor){
         mStockList.clear();
 
@@ -33,6 +54,17 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockRecycler
         }
 
         notifyDataSetChanged();
+    }
+
+
+    public class StockViewHolder extends RecyclerView.ViewHolder{
+        TextView mCompanyName, mQuantityOfStock;
+
+        public StockViewHolder(View itemView) {
+            super(itemView);
+            mCompanyName = (TextView) itemView.findViewById(R.id.company_name);
+            mQuantityOfStock = (TextView) itemView.findViewById(R.id.quantity_of_stock);
+        }
     }
 
 }
