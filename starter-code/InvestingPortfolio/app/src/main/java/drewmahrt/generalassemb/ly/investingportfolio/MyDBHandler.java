@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 public class MyDBHandler extends SQLiteOpenHelper {
+
   private static final Object mLock = new Object();
   private static final int DATABASE_VERSION = 1;
   private static final String DATABASE_NAME = "portfolioDB.db";
@@ -23,7 +24,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
   private static MyDBHandler mInstance;
 
-  public static MyDBHandler getInstance(Context context){
+  public static MyDBHandler getInstance(Context context) {
+
     if(mInstance == null){
       mInstance = new MyDBHandler(context);
     }
@@ -36,6 +38,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
   @Override
   public void onCreate(SQLiteDatabase db) {
+
     String CREATE_PRODUCTS_TABLE = "CREATE TABLE " +
         TABLE_STOCKS + "("
         + COLUMN_ID + " INTEGER PRIMARY KEY,"
@@ -49,11 +52,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     db.execSQL("DROP TABLE IF EXISTS " + TABLE_STOCKS);
     onCreate(db);
   }
 
   public long addStock(ContentValues values) {
+
     SQLiteDatabase db = getWritableDatabase();
     long insertedRow = db.insert(TABLE_STOCKS, null, values);
     db.close();
@@ -61,6 +66,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
   }
 
   public Cursor getStockSymbols(String selection) {
+
     String[] projection = {COLUMN_STOCK_SYMBOL};
 
     SQLiteDatabase db = getReadableDatabase();
@@ -70,7 +76,13 @@ public class MyDBHandler extends SQLiteOpenHelper {
   }
 
   public Cursor getStocks(String selection) {
-    String[] projection = {COLUMN_ID,COLUMN_PRICE,COLUMN_STOCK_SYMBOL,COLUMN_STOCKNAME,COLUMN_EXCHANGE,COLUMN_QUANTITY};
+
+    String[] projection = {
+
+            COLUMN_ID,COLUMN_PRICE,
+            COLUMN_STOCK_SYMBOL,COLUMN_STOCKNAME,
+            COLUMN_EXCHANGE,COLUMN_QUANTITY
+    };
 
     SQLiteDatabase db = getReadableDatabase();
     Cursor cursor = db.query(TABLE_STOCKS,projection,selection,null,null,null,null);
@@ -79,15 +91,19 @@ public class MyDBHandler extends SQLiteOpenHelper {
   }
 
   public int deleteStockById(String id) {
+
     SQLiteDatabase db = getWritableDatabase();
 
     int rowsDeleted = db.delete(TABLE_STOCKS,COLUMN_ID+"=?",new String[]{id});
     db.close();
+
     return rowsDeleted;
   }
 
   public int updateStock(ContentValues values, String selection, String[] selectionArgs) {
+
     synchronized (mLock) {
+
       SQLiteDatabase db = getWritableDatabase();
       int rowsUpdated = 0;
 
