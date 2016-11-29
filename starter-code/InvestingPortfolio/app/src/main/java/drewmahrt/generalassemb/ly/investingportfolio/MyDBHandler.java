@@ -69,11 +69,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
     return cursor;
   }
 
-  public Cursor getStocks(String selection) {
+  public Cursor getStocks(String selection, String... args) {
     String[] projection = {COLUMN_ID,COLUMN_PRICE,COLUMN_STOCK_SYMBOL,COLUMN_STOCKNAME,COLUMN_EXCHANGE,COLUMN_QUANTITY};
 
     SQLiteDatabase db = getReadableDatabase();
-    Cursor cursor = db.query(TABLE_STOCKS,projection,selection,null,null,null,null);
+    Cursor cursor = db.query(TABLE_STOCKS,projection,selection,args,null,null,null);
 
     return cursor;
   }

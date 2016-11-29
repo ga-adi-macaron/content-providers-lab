@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     EditText mTickerInput, mCountInput;
     FloatingActionButton mFloatingActionButton;
 
+    List<Stock> mStocks;
+
+    ContentResolver mContentResolver;
+
     RecyclerView mPortfolioRecyclerView;
     StockRecyclerViewAdapter mAdapter;
 
@@ -51,18 +55,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mStocks = new ArrayList<>();
 
+        mContentResolver = getContentResolver();
+        Cursor cursor = mContentResolver.query(StockPortfolioContract.Stocks.CONTENT_URI,null,null, null, null,null);
+
+        if(cursor!=null){
+            getStocksData(cursor);
+        }
 
         mFloatingActionButton = (FloatingActionButton)findViewById(R.id.fab);
 
-
-
         mPortfolioRecyclerView = (RecyclerView)findViewById(R.id.portfolio_list);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
 
-        List<Stock> stocks = new ArrayList<>();
-
-        mAdapter = new StockRecyclerViewAdapter(stocks);
+        mAdapter = new StockRecyclerViewAdapter(mStocks);
 
         mPortfolioRecyclerView.setLayoutManager(gridLayoutManager);
         mPortfolioRecyclerView.setAdapter(mAdapter);
@@ -88,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         .setPositiveButton("Buy Stocks", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                makePurchase(mTickerInput.getText().toString());//ToDo: Needs to get count at some point.
+                                makePurchase(mTickerInput.getText().toString(),Integer.parseInt(mCountInput.getText().toString()));
 
                             }
                         }).create().show();
@@ -97,12 +105,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    public void makePurchase(String tickerSymbol){
-
-        //ToDo:Needs to get count at some point... part 2
-        MyAPIHandler.getInstance().getStockInfo(MainActivity.this,tickerSymbol, MyAPIHandler.DETAIL_LOOKUP);//ToDo: Give option to get just company data or full stock quote.
+    public void makePurchase(String tickerSymbol, int count){
+        MyAPIHandler.getInstance().getStockInfo(MainActivity.this,tickerSymbol, MyAPIHandler.DETAIL_QUOTE, count);
     }
 
+    public void getStocksData(Cursor cursor){
+        if(cursor.moveToFirst()){
+            while(!cursor.isAfterLast()){
+                mStocks.add(new Stock(
+                        cursor.getString(cursor.getColumnIndex(StockPortfolioContract.Stocks.COLUMN_STOCKNAME)),
+                        cursor.getInt(cursor.getColumnIndex(StockPortfolioContract.Stocks.COLUMN_QUANTITY)),
+                        cursor.getInt(cursor.getColumnIndex(StockPortfolioContract.Stocks._ID))));
+                cursor.moveToNext();
+            }
+
+        }
+        cursor.close();
+    }
 
 
     @Override

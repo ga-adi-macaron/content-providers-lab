@@ -1,8 +1,10 @@
 package drewmahrt.generalassemb.ly.investingportfolio;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -36,7 +38,7 @@ public class MyAPIHandler {
     }
 
 
-    public void getStockInfo(final Context context, String tickerSymbol, final int detailLevel){
+    public void getStockInfo(final Context context, String tickerSymbol, final int detailLevel, final int count){
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = connectivityManager.getActiveNetworkInfo();
         if (info!=null && info.isConnected()){
@@ -58,18 +60,25 @@ public class MyAPIHandler {
                     Gson gson = new Gson();
                     switch (detailLevel){
                         case DETAIL_QUOTE:
-                            StockGSONResult stock = gson.fromJson(response,StockGSONResult.class);
-                            Log.d("Stock name: ",stock.getName()); //ToDo: Add to DB
+                            StockGSONResult gsonResult = gson.fromJson(response,StockGSONResult.class);
+
+                            ContentValues contentValues = new ContentValues();
+                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_QUANTITY, count);
+                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_STOCKNAME, gsonResult.getName());
+                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_STOCK_SYMBOL,gsonResult.getSymbol());
+                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_PRICE, gsonResult.getLastPrice());
+                            contentValues.put(StockPortfolioContract.Stocks.COLUMN_EXCHANGE, gsonResult.getExchange());
+
+                            context.getContentResolver().insert(StockPortfolioContract.Stocks.CONTENT_URI,contentValues);
                             break;
-                        case DETAIL_LOOKUP:
+
+                        case DETAIL_LOOKUP://Unimplemented
                             StockGSONResult[] stockSearchresults = gson.fromJson(response, StockGSONResult[].class);
                             for(StockGSONResult stockResult:stockSearchresults){
-                                Log.d("Look-Up Name: ",stockResult.getName());//ToDo: Add to DB
+                                Log.d("Look-Up Name: ",stockResult.getName());
                             }
                             break;
                     }
-                    //ToDo: Add a method that uses GSON Stock data to make a Stock Object?
-
 
                 }
             }, new Response.ErrorListener() {
