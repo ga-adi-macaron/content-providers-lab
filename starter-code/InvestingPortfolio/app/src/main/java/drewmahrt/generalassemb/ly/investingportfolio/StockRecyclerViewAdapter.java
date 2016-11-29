@@ -50,12 +50,12 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockRecycler
     @Override
     public void onBindViewHolder(StockViewHolder holder, int position) {
         holder.mCompanyName.setText(mStockList.get(position).getStockName());
-        holder.mStockQuantity.setText(mStockList.get(position).getStockCount());
+        holder.mStockQuantity.setText(String.valueOf(mStockList.get(position).getStockCount()));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mStockList.size();
     }
 
     public class StockViewHolder extends RecyclerView.ViewHolder{
