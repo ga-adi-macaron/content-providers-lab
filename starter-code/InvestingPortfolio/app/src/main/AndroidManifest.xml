@@ -3,6 +3,7 @@
     package="drewmahrt.generalassemb.ly.investingportfolio">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +23,9 @@
         </activity>
 
         <!-- TODO: Add Provider tag -->
+        <provider
+            android:authorities="drewmahrt.generalassemb.ly.investingportfolio.MyContentProvider"
+            android:name=".MyContentProvider" />
 
     </application>
 
