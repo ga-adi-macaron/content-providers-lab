@@ -38,4 +38,5 @@ public class Stock {
     public void setId(long id) {
         mId = id;
     }
+
 }

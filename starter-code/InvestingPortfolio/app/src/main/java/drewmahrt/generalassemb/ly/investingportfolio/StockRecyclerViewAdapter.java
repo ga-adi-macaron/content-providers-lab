@@ -3,6 +3,9 @@ package drewmahrt.generalassemb.ly.investingportfolio;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -10,7 +13,7 @@ import java.util.List;
  * Created by drewmahrt on 11/22/16.
  */
 
-public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockRecyclerViewAdapter.StockViewHolder>{
+public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockViewHolder> {
 
     List<Stock> mStockList;
 
@@ -19,15 +22,15 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockRecycler
     }
 
 
-    public void swapData(Cursor cursor){
+    public void swapData(Cursor cursor) {
         mStockList.clear();
 
-        if(cursor != null && cursor.moveToFirst()){
-            while (!cursor.isAfterLast()){
+        if (cursor != null && cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
                 long id = cursor.getLong(cursor.getColumnIndex(StockPortfolioContract.Stocks._ID));
                 String name = cursor.getString(cursor.getColumnIndex(StockPortfolioContract.Stocks.COLUMN_STOCKNAME));
                 int count = cursor.getInt(cursor.getColumnIndex(StockPortfolioContract.Stocks.COLUMN_QUANTITY));
-                mStockList.add(new Stock(name,count,id));
+                mStockList.add(new Stock(name, count, id));
                 cursor.moveToNext();
             }
         }
@@ -35,4 +38,22 @@ public class StockRecyclerViewAdapter extends RecyclerView.Adapter<StockRecycler
         notifyDataSetChanged();
     }
 
+    @Override
+    public StockViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View parentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.stocks, parent, false);
+        StockViewHolder viewHolder = new StockViewHolder(parentView);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(StockViewHolder holder, int position) {
+        holder.getCompany().setText(mStockList.get(position).getStockName());
+        holder.getQuantity().setText(mStockList.get(position).getStockCount());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return mStockList.size();
+    }
 }
