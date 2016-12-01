@@ -5,11 +5,13 @@ package drewmahrt.generalassemb.ly.investingportfolio;
  */
 
 public class Stock {
+
     private long mId;
     private String mStockName;
     private int mStockCount;
 
     public Stock(String stockName, int stockCount, long id) {
+
         mId = id;
         mStockName = stockName;
         mStockCount = stockCount;
